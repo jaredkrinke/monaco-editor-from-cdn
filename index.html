@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#wrapper {
+    flex-grow: 1;
+    border: solid 2px red;
+    overflow: hidden;
+}
+
+#editor {
+    width: 100%;
+    height: 100%;
+}
+</style>
+</head>
+<body>
+<h1>Monaco Editor, loaded via CDN</h1>
+
+<div id="wrapper">
+<div id="editor"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.29.1/min/vs/loader.min.js"></script>
+<script>
+require.config({ paths: { "vs": "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.29.1/min/vs/" }});
+
+window.MonacoEnvironment = {
+    getWorkerUrl: function(workerId, label) {
+        return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+            self.MonacoEnvironment = { baseUrl: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.29.1/min/" };
+            importScripts("https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.29.1/min/vs/base/worker/workerMain.min.js");`
+        )}`;
+    }
+};
+
+require(["vs/editor/editor.main"], function () {
+    var editor = monaco.editor.create(document.getElementById("editor"), {
+        value: "// code goes here\n",
+        language: "javascript"
+    });
+
+    const wrapper = document.getElementById("wrapper");
+    window.addEventListener("resize", () => editor.layout({
+        width: wrapper.offsetWidth,
+        height: wrapper.offsetHeight
+    }));
+});
+</script>
+</body>
+</html>
