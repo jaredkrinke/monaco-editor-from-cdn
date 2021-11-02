@@ -3,3 +3,4 @@ This is an example of loading VS Code's Monaco Editor from a CDN and embedding i
 
 Links:
 * [Detailed explanation](https://log.schemescape.com/posts/web-development/embedding-monaco-from-cdn.html)
+* [Live demo](https://jaredkrinke.github.io/monaco-editor-from-cdn/)
